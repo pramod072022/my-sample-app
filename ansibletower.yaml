@@ -1,0 +1,26 @@
+sudo yum install -y git python3
+sudo pip3 install docker-compose
+curl -fsSL https://get.docker.com | sudo bash
+sudo systemctl enable --now docker
+git clone https://github.com/ansible/awx.git
+cd awx/tools/docker-compose
+create .env
+cat <<EOF > .env
+POSTGRES_USER=awx
+POSTGRES_PASSWORD=awxpass
+POSTGRES_DB=awx
+AWX_ADMIN_USER=admin
+AWX_ADMIN_PASSWORD=admin
+SECRET_KEY=$(openssl rand -hex 32)
+AWX_IMAGE=quay.io/ansible/awx
+AWX_VERSION=24.3.0
+EOF
+docker compose up -d
+docker compose ps
+Open: http://<your-server-ip>
+
+Login:
+Username: admin
+Password: admin
+
+
